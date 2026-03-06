@@ -11,6 +11,12 @@ type Repository struct {
 	db *pgxpool.Pool
 }
 
+func NewRepository(db *pgxpool.Pool) *Repository {
+	return &Repository{
+		db: db,
+	}
+}
+
 func (r *Repository) Save(
 	ctx context.Context,
 	n domain.Notification,
@@ -18,7 +24,7 @@ func (r *Repository) Save(
 	query := `
 	INSERT INTO notifications 
 	(user, user_id, type, message, status, created_at)
-	VALUES ($1,$2,$3,$4,$5,%6)
+	VALUES ($1,$2,$3,$4,$5,$6)
 	`
 
 	_, err := r.db.Exec(
