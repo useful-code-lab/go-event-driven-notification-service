@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package notification;
+
+option go_package = "gitverse.ru/go-portfolio/notify-platform/proto;notificationpb";
+
+service NotificationService {
+
+  rpc SendNotification (SendNotificationRequest)
+      returns (SendNotificationResponse);
+
+}
+
+message SendNotificationRequest {
+  string user_id = 1;
+  string type = 2;
+  string message = 3;
+}
+
+message SendNotificationResponse {
+  string id = 1;
+  string status = 2;
+}
