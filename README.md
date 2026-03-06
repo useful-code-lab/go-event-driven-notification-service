@@ -37,3 +37,17 @@ $ podman exec -it notify_kafka \
 --bootstrap-server localhost:9092
 notifications.created
 ```
+
+## БД postgres
+Подключение к БД postgres:
+```
+podman exec -it notify_postgres psql -U notify
+```
+
+Запуск миграций:
+```
+podman exec -i notify_postgres \
+psql -U notify -d notify \
+< 001_init.sql
+```
+
