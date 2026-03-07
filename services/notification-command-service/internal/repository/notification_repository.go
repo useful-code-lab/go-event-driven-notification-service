@@ -23,7 +23,7 @@ func (r *Repository) Save(
 ) error {
 	query := `
 	INSERT INTO notifications 
-	(user, user_id, type, message, status, created_at)
+	(ID, user_id, type, message, status, created_at)
 	VALUES ($1,$2,$3,$4,$5,$6)
 	`
 

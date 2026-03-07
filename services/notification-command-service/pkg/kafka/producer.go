@@ -28,7 +28,6 @@ func (p *Producer) Publish(
 	data, _ := json.Marshal(notification)
 
 	msg := kafka.Message{
-		Topic: "notofications",
 		Value: data,
 	}
 
