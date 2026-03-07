@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Запуск сервера нотификации",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/services/notification-command-service/cmd/server/main.go"
+        },
+        {
+            "name": "Запуск клиента нотификации",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/services/notification-command-service/cmd/client/main.go"
+        }
+    ]
+}
