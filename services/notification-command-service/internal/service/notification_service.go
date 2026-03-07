@@ -16,6 +16,13 @@ type Service struct {
 	kafka kafka.Producer
 }
 
+func NewService(repo repository.Repository, producer kafka.Producer) *Service{
+	return &Service{
+		repo: repo,
+		kafka: producer,
+	} 
+}
+
 func (s *Service) SendNotification(
 	ctx context.Context,
 	req *notificationpb.SendNotificationRequest,

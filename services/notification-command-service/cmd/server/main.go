@@ -6,6 +6,8 @@ import (
 )
 
 func main() {
+	producer := kafka
+
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ok"))
 	})
