@@ -51,3 +51,7 @@ psql -U notify -d notify \
 < 001_init.sql
 ```
 
+Запуск сервера нотификаций:
+```
+~/notify-platform/services/notification-command-service$ go run cmd/server/main.go
+```

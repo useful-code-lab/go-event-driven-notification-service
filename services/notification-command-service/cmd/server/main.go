@@ -1,20 +1,45 @@
 package main
 
 import (
+	"context"
 	"log"
-	"net/http"
+	"net"
+
+	"github.com/jackc/pgx/v5/pgxpool"
+	"gitverse.ru/go-portfolio/notify-platform/notification-command-service/internal/handler"
+	"gitverse.ru/go-portfolio/notify-platform/notification-command-service/internal/repository"
+	"gitverse.ru/go-portfolio/notify-platform/notification-command-service/internal/service"
+	"gitverse.ru/go-portfolio/notify-platform/notification-command-service/pkg/kafka"
+	notificationpb "gitverse.ru/go-portfolio/notify-platform/notification-command-service/proto"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	producer := kafka
+	ctx := context.Background()
+	connString := "postgres://notify:notify@localhost:5432/notify?sslmode=disable"
+	pool, err := pgxpool.New(ctx, connString)
+	if err != nil {
+		log.Fatalf("Невозможно подключититься к пулу соединений: %v", err)
+	}
+	defer pool.Close()
 
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("ok"))
-	})
+	repo := repository.NewRepository(pool)
+	producer := kafka.NewProducer([]string{"localhost:9092"}, "notifications")
 
-	log.Println("Запущен сервис нотификаций на порту :8080")
+	svc := service.NewService(*repo, *producer)
+	h := handler.NewHandler(svc)
 
-	err := http.ListenAndServe(":8080", nil)
+	grpcServer := grpc.NewServer()
+	notificationpb.RegisterNotificationServiceServer(grpcServer, h)
+
+	lis, err := net.Listen("tcp", ":50051")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Сервис нотификаций запущен на порту :50051")
+
+	err = grpcServer.Serve(lis)
 	if err != nil {
 		log.Fatal(err)
 	}

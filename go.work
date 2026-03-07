@@ -1,3 +1,4 @@
 go 1.25.7
 
 use ./services/delivery-worker
+use ./services/notification-command-service
