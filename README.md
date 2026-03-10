@@ -1,3 +1,29 @@
+# notify-platform
+
+Платформа уведомлений на основе событийной архитектуры. Проект демонстрирует работу с современным стеком Go, очередями сообщений и контейнеризацией без Docker (Podman).
+
+## 🛠 Технологический стек
+*   **Language:** Go (Golang)
+*   **Communication:** gRPC (Protocol Buffers)
+*   **Message Broker:** Apache Kafka
+*   **Database:** PostgreSQL
+*   **Infrastructure:** Podman, Podman-compose
+
+---
+
+## 🚀 Быстрый старт
+
+### 1. Подготовка инфраструктуры
+В проекте используется **podman-compose**. Для запуска базы данных и брокера сообщений выполните:
+
+```bash
+cd deployments/docker
+podman-compose up -d
+
+# Проверка статуса контейнеров
+podman ps
+
+
 ## Генерация proto-файла
 
 ```
